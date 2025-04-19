@@ -1,0 +1,70 @@
+//전역적으로 같은 클래스 네임을 사용하면  의도치않은 css 가 적용될때가 있음. 그래서 이름에 module을 넣어서
+//module 형식으로 만들어줌.그러면 그 module에 사용된 클래스만 감지해서 충돌 안나게 해줌.
+$HEADER-HEIGHT: 50px;
+$FOOTER-HEIGHT: 50px;
+$NAVIGATION-HEIGHT: 50px;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 100%;
+  height: 100vh;
+
+  &_contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    height: calc(100% - $HEADER-HEIGHT - $NAVIGATION-HEIGHT - $FOOTER-HEIGHT);
+
+    &_introBox {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      width: 100%;
+      height: 40%;
+
+      background-image: url();
+      background-size: cover;
+      background-position: 100% 15%;
+
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+
+        &_title {
+          margin-bottom: 4px;
+
+          color: $color-white-000; //CSS COLOR CODE 변수화 작업
+          font-size: 3rem;
+          font-weight: 700;
+        }
+        &_desc {
+          color: $color-white-000;
+          margin-bottom: 32px;
+        }
+      }
+    }
+    &_imageBox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+      height: 60%;
+      flex-wrap: wrap;
+
+      padding: 16px 60px;
+
+      gap: 16px;
+
+      overflow-y: scroll;
+    }
+  }
+}
