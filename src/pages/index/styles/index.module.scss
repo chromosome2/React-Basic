@@ -1,6 +1,9 @@
 //전역적으로 같은 클래스 네임을 사용하면  의도치않은 css 가 적용될때가 있음. 그래서 이름에 module을 넣어서
 //module 형식으로 만들어줌.그러면 그 module에 사용된 클래스만 감지해서 충돌 안나게 해줌.
-$HEADER-HEIGHT: 50px;
+//@use "@/assets/styles/main.scss" as *;
+//@import 지원이 끊겨서 @use 사용. @use사용시 module.scss 형식의 파일에는 적용이 안될 수도 있음. 그래서 module.scss파일에는 직접적으로 @use 해줘야함.
+
+$HEADER-HEIGHT: 56px;
 $FOOTER-HEIGHT: 50px;
 $NAVIGATION-HEIGHT: 50px;
 
@@ -25,12 +28,12 @@ $NAVIGATION-HEIGHT: 50px;
     &_introBox {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
 
       width: 100%;
       height: 40%;
 
-      background-image: url();
+      background-image: url("@/assets/images/image-intro.jpg");
       background-size: cover;
       background-position: 100% 15%;
 
