@@ -1,4 +1,6 @@
 //rfce 기본세팅 단축어.
+import { useRecoilValue } from "recoil";
+import { imageData } from "@/recoil/selectors/imageSelectors.ts";
 import styles from "./styles/index.module.scss";
 
 import CommonHeader from "@components/common/header/CommonHeader";
@@ -6,37 +8,40 @@ import CommonNav from "@components/common/navigation/CommonNav";
 import CommonSearchBar from "@components/common/searchBar/CommonSearchBar";
 import CommonFooter from "@components/common/footer/CommonFooter";
 import Card from "./components/Card";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import api_key from "./apiKey.tsx";
+import { useState } from "react";
+// import api_key from "./apiKey.tsx";s
+import { CardDTO } from "./types/card.ts";
 
 function index() {
-  const [imgUrls, setImgUrls] = useState([]);
-  const getData = async () => {
-    //비동기적으로 api 사용.
-    try {
-      const res = await axios.get(
-        `${api_key.API_URL}?query=${api_key.searchValue}&client_id=${api_key.API_KEY}&page=${api_key.pageValue}&per_page=${api_key.PER_PAGE}`
-      );
+  const imgSelector = useRecoilValue(imageData);
+  const [imgData, setImgData] = useState<CardDTO[]>([]);
 
-      console.log(res);
-      //res.data.results라는 배열을 활용할 예정정
+  // const getData = async () => {
+  //   //비동기적으로 api 사용.
+  //   try {
+  //     // const res = await axios.get(
+  //     //   `${api_key.API_URL}?query=${api_key.searchValue}&client_id=${api_key.API_KEY}&page=${api_key.pageValue}&per_page=${api_key.PER_PAGE}`
+  //     // );
 
-      if (res.status == 200) {
-        setImgUrls(res.data.results);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     console.log(res);
+  //     //res.data.results라는 배열을 활용할 예정정
 
-  const cardList = imgUrls.map((card: any) => {
-    return <Card data={card} key={card} />;
+  //     if (res.status == 200) {
+  //       setImgUrls(res.data.results);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const cardList = imgSelector.map((card: CardDTO) => {
+    return <Card data={card} key={card.id} />; //data에 card 데이터를 props를 시킨다. props시키는 부분임
   });
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
+
   return (
     <div className={styles.page}>
       {/*공통 헤더 UI 부분*/}
