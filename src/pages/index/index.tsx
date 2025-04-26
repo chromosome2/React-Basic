@@ -1,4 +1,6 @@
 //rfce 기본세팅 단축어.
+import React from "react";
+import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { imageData } from "@/recoil/selectors/imageSelectors.ts";
 import styles from "./styles/index.module.scss";
@@ -8,7 +10,6 @@ import CommonNav from "@components/common/navigation/CommonNav";
 import CommonSearchBar from "@components/common/searchBar/CommonSearchBar";
 import CommonFooter from "@components/common/footer/CommonFooter";
 import Card from "./components/Card";
-import { useState } from "react";
 // import api_key from "./apiKey.tsx";s
 import { CardDTO } from "./types/card.ts";
 
