@@ -1,7 +1,6 @@
 //rfce 기본세팅 단축어.
-import React from "react";
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useAtom } from "jotai";
 import { imageData } from "@/recoil/selectors/imageSelectors.ts";
 import styles from "./styles/index.module.scss";
 
@@ -14,28 +13,11 @@ import Card from "./components/Card";
 import { CardDTO } from "./types/card.ts";
 
 function index() {
-  const imgSelector = useRecoilValue(imageData);
+  const [imgSelector] = useAtom(imageData);
+
   const [imgData, setImgData] = useState<CardDTO[]>([]);
 
-  // const getData = async () => {
-  //   //비동기적으로 api 사용.
-  //   try {
-  //     // const res = await axios.get(
-  //     //   `${api_key.API_URL}?query=${api_key.searchValue}&client_id=${api_key.API_KEY}&page=${api_key.pageValue}&per_page=${api_key.PER_PAGE}`
-  //     // );
-
-  //     console.log(res);
-  //     //res.data.results라는 배열을 활용할 예정정
-
-  //     if (res.status == 200) {
-  //       setImgUrls(res.data.results);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const cardList = imgSelector.map((card: CardDTO) => {
+  const CARD_LIST = imgSelector.results.map((card: CardDTO) => {
     return <Card data={card} key={card.id} />; //data에 card 데이터를 props를 시킨다. props시키는 부분임
   });
 
@@ -62,7 +44,7 @@ function index() {
           </div>
         </div>
         <div className={styles.page_contents_imageBox}>
-          {cardList}
+          {CARD_LIST}
           {/* index.tsx.(부모)파일안에 Card가 import(자식)되어 있는 상태. => 이런 상황일때 props이라는 개념 사용 가능. 부모(상위 컴포넌트)에서 자식(하위컴포넌트)한테 데이터 전달하는 것임. */}
         </div>
       </div>

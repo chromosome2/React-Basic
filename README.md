@@ -16,4 +16,6 @@
 
 7. React Toast Popup 모듈 설치: 'npm install react-simple-toasts' <br />
 
+8. 조타이 설치 : 'npm install jotai'
+
 (프로젝트 생성시마다 터미널에서 설치해줘야 함.)

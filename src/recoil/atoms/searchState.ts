@@ -1,5 +1,3 @@
-import { atom } from "recoil";
+import { atom } from "jotai";
 
-export const searchState = atom<string>({
-  key: "searchState",
-});
+export const searchState = atom("Korea");
