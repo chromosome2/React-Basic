@@ -9,6 +9,7 @@ import CommonNav from "@components/common/navigation/CommonNav";
 import CommonSearchBar from "@components/common/searchBar/CommonSearchBar";
 import CommonFooter from "@components/common/footer/CommonFooter";
 import Card from "./components/Card";
+import DetailDialog from "@/components/common/dialog/DetailDialog.tsx";
 // import api_key from "./apiKey.tsx";s
 import { CardDTO } from "./types/card.ts";
 
@@ -16,9 +17,10 @@ function index() {
   const [imgSelector] = useAtom(imageData);
 
   const [imgData, setImgData] = useState<CardDTO[]>([]);
+  const [open, setOpen] = useState<boolean>(false); //이미지 상세 다이얼로그 발생(관리) State
 
   const CARD_LIST = imgSelector.results.map((card: CardDTO) => {
-    return <Card data={card} key={card.id} />; //data에 card 데이터를 props를 시킨다. props시키는 부분임
+    return <Card data={card} key={card.id} handleDialog={setOpen} />; //data에 card 데이터를 props를 시킨다. props시키는 부분임
   });
 
   // useEffect(() => {
@@ -50,6 +52,7 @@ function index() {
       </div>
       {/* 공통 푸터 UI 부분 */}
       <CommonFooter />
+      {open && <DetailDialog />}
     </div>
   );
 }
