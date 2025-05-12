@@ -14,6 +14,7 @@ function App() {
             path="/" //기본경로에 / 붙이면 그대로 기본경로로...
             element={<MainPage />} //mainpage 자체가 컴포넌트가 된거라서 컴포넌트처럼 사용해줘야함.
           ></Route>
+          <Route path="/:id" element={<MainPage />}></Route>
         </Routes>
       </BrowserRouter>
     </RecoilRoot>

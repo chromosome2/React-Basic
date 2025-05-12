@@ -1,5 +1,5 @@
 //rfce 기본세팅 단축어.
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAtom } from "jotai";
 import { imageData } from "@/recoil/selectors/imageSelectors.ts";
 import styles from "./styles/index.module.scss";
@@ -15,13 +15,36 @@ import { CardDTO } from "./types/card.ts";
 
 function index() {
   const [imgSelector] = useAtom(imageData);
-
-  const [imgData, setImgData] = useState<CardDTO[]>([]);
+  const [imgData, setImgData] = useState<CardDTO>();
   const [open, setOpen] = useState<boolean>(false); //이미지 상세 다이얼로그 발생(관리) State
 
-  const CARD_LIST = imgSelector.results.map((card: CardDTO) => {
-    return <Card data={card} key={card.id} handleDialog={setOpen} />; //data에 card 데이터를 props를 시킨다. props시키는 부분임
-  });
+  // const CARD_LIST = imgSelector.map((card: CardDTO) => {
+  //   return (
+  //     <Card
+  //       data={card}
+  //       key={card.id}
+  //       handleDialog={setOpen}
+  //       handleSetData={setImgData}
+  //     />
+  //   ); //data에 card 데이터를 props를 시킨다. props시키는 부분임
+  // });
+  const CARD_LIST = useMemo(() => {
+    if (imgSelector) {
+      const result = imgSelector.map((card: CardDTO) => {
+        return (
+          <Card
+            data={card}
+            key={card.id}
+            handleDialog={setOpen}
+            handleSetData={setImgData}
+          />
+        ); //data에 card 데이터를 props를 시킨다. props시키는 부분임
+      });
+      return result;
+    } else {
+      return <div>loading...</div>;
+    }
+  }, [imgSelector]); //캐싱해두기. //imgSelector가 변경될때마다 재랜더링. 안바뀌면 안함.
 
   // useEffect(() => {
   //   getData();
@@ -52,7 +75,7 @@ function index() {
       </div>
       {/* 공통 푸터 UI 부분 */}
       <CommonFooter />
-      {open && <DetailDialog />}
+      {open && <DetailDialog data={imgData} handleDialog={setOpen} />}
     </div>
   );
 }
