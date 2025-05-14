@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import styles from "./CommonSearchBar.module.scss";
 import { useAtom } from "jotai";
 import { searchState } from "@/recoil/atoms/searchState";
+import { pageState } from "@/recoil/atoms/pageState";
 
 function CommonSearchBar() {
   const [search, setSearch] = useAtom(searchState); //useState랑 useRecoilState 뭐가 다른겨... //왜 searchState를 따로 파서 이렇게 할당해줘야하는지..? 여러군데에서 써야해서 그런가?
+  const [page, setPage] = useAtom(pageState);
   const [text, setText] = useState("");
   const onChange = (event) => {
     //console.log(event.target.value);
@@ -18,6 +20,7 @@ function CommonSearchBar() {
     } else {
       setSearch(text); //작성한 input value 값 할당
     }
+    setPage(1);
   };
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key == "Enter") {
@@ -27,6 +30,7 @@ function CommonSearchBar() {
       } else {
         setSearch(text); //작성한 input value 값 할당
       }
+      setPage(1);
     }
   };
   return (

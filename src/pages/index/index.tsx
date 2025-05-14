@@ -30,7 +30,7 @@ function index() {
   // });
   const CARD_LIST = useMemo(() => {
     if (imgSelector) {
-      const result = imgSelector.map((card: CardDTO) => {
+      const result = imgSelector.results.map((card: CardDTO) => {
         return (
           <Card
             data={card}
