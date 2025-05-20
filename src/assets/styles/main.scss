@@ -10,3 +10,9 @@
   font-family: "Noto Sans KR", sans-serif;
   font-weight: 400;
 }
+@import "react-toastify/dist/ReactToastify.css";
+
+:root {
+  --toastify-toast-width: auto;
+  --toastify-toast-padding: 20px;
+}

@@ -1,7 +1,5 @@
 //rfce 기본세팅 단축어.
-import { useMemo, useState } from "react";
-import { useAtom } from "jotai";
-import { imageData } from "@/recoil/selectors/imageSelectors.ts";
+import { useMemo, useState, Suspense, lazy } from "react";
 import styles from "./styles/index.module.scss";
 
 import CommonHeader from "@components/common/header/CommonHeader";
@@ -10,45 +8,14 @@ import CommonSearchBar from "@components/common/searchBar/CommonSearchBar";
 import CommonFooter from "@components/common/footer/CommonFooter";
 import Card from "./components/Card";
 import DetailDialog from "@/components/common/dialog/DetailDialog.tsx";
+import Loading from "@/pages/index/components/Loading";
 // import api_key from "./apiKey.tsx";s
 import { CardDTO } from "./types/card.ts";
+const CardList = lazy(() => import("./CardList.tsx"));
 
 function index() {
-  const [imgSelector] = useAtom(imageData);
   const [imgData, setImgData] = useState<CardDTO>();
   const [open, setOpen] = useState<boolean>(false); //이미지 상세 다이얼로그 발생(관리) State
-
-  // const CARD_LIST = imgSelector.map((card: CardDTO) => {
-  //   return (
-  //     <Card
-  //       data={card}
-  //       key={card.id}
-  //       handleDialog={setOpen}
-  //       handleSetData={setImgData}
-  //     />
-  //   ); //data에 card 데이터를 props를 시킨다. props시키는 부분임
-  // });
-  const CARD_LIST = useMemo(() => {
-    if (imgSelector) {
-      const result = imgSelector.results.map((card: CardDTO) => {
-        return (
-          <Card
-            data={card}
-            key={card.id}
-            handleDialog={setOpen}
-            handleSetData={setImgData}
-          />
-        ); //data에 card 데이터를 props를 시킨다. props시키는 부분임
-      });
-      return result;
-    } else {
-      return <div>loading...</div>;
-    }
-  }, [imgSelector]); //캐싱해두기. //imgSelector가 변경될때마다 재랜더링. 안바뀌면 안함.
-
-  // useEffect(() => {
-  //   getData();
-  // }, []);
 
   return (
     <div className={styles.page}>
@@ -69,7 +36,14 @@ function index() {
           </div>
         </div>
         <div className={styles.page_contents_imageBox}>
-          {CARD_LIST}
+          <Suspense fallback={<Loading />}>
+            <CardList
+              open={open}
+              setOpen={setOpen}
+              imgData={imgData}
+              setImgData={setImgData}
+            />
+          </Suspense>
           {/* index.tsx.(부모)파일안에 Card가 import(자식)되어 있는 상태. => 이런 상황일때 props이라는 개념 사용 가능. 부모(상위 컴포넌트)에서 자식(하위컴포넌트)한테 데이터 전달하는 것임. */}
         </div>
       </div>
