@@ -1,6 +1,6 @@
 import { CardDTO, Tag } from "@/pages/index/types/card";
 import styles from "./DetailDialog.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { json } from "stream/consumers";
 // import toast, { toastConfig } from "react-simple-toasts";
 // import "react-simple-toasts/dist/theme/dark.css";
@@ -30,16 +30,37 @@ function DetailDialog({ data, handleDialog }: Props) {
 
     const getLocalStorage = JSON.parse(localStorage.getItem("bookmark"));
 
-    //1.로컬스토리지에 bookmark라는 데이터가 없을 경우
     if (!getLocalStorage || getLocalStorage == null) {
+      //1.로컬스토리지에 bookmark라는 데이터가 없을 경우
       localStorage.setItem("bookmark", JSON.stringify([selected]));
       toast("🌟 북마크 저장 완료");
-      console.log("asdfasdf");
     } else {
-      toast("🌟 북마크 저장 완료");
-      console.log("22222");
+      //2.해당 이미지가 이미 로컬스토리지 bookmark라는 데이터에 저장되어 있을 경우
+      if (
+        getLocalStorage.findIndex((item: CardDTO) => item.id == selected.id) >
+        -1
+      ) {
+        toast("📌 이미 북마크에 저장되어 있습니다.");
+      } else {
+        //3. 해당 이미지가 로컬스토리지 bookmark라는 데이터에 저장되어 있지 않을 경우 + bookmark라는 데이터에 이미 어떤 값이 담겨 있는 경우우
+        const res = [...getLocalStorage];
+        res.push(selected);
+        localStorage.setItem("bookmark", JSON.stringify(res));
+        toast("🌟 북마크 저장 완료");
+      }
     }
   };
+
+  useEffect(() => {
+    const getLocalStorage = JSON.parse(localStorage.getItem("bookmark"));
+
+    if (
+      getLocalStorage &&
+      getLocalStorage.findIndex((item: CardDTO) => item.id == data.id) > -1
+    ) {
+      setBookmark(true);
+    } else if (!getLocalStorage) return;
+  }, []);
   return (
     <div className={styles.container}>
       <div className={styles.container_dialog}>
