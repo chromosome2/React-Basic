@@ -1,6 +1,6 @@
 import { CardDTO, Tag } from "@/pages/index/types/card";
 import styles from "./DetailDialog.module.scss";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { json } from "stream/consumers";
 // import toast, { toastConfig } from "react-simple-toasts";
 // import "react-simple-toasts/dist/theme/dark.css";
@@ -60,6 +60,17 @@ function DetailDialog({ data, handleDialog }: Props) {
     ) {
       setBookmark(true);
     } else if (!getLocalStorage) return;
+
+    //esc키 눌렀을 때, 다이얼로그 창 닫기
+    const escKeyDownCloseDialog = (event: any) => {
+      console.log("함수 호출");
+      if (event.key == "Escape") {
+        closeDialog();
+      }
+    };
+    //위에 만들어 놓은 escKeyDownCloseDialog 를 키다운 했을 때, 이벤트로 등록 및 해지
+    window.addEventListener("keydown", escKeyDownCloseDialog);
+    return () => window.removeEventListener("keydown", escKeyDownCloseDialog);
   }, []);
   return (
     <div className={styles.container}>

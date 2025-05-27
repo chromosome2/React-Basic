@@ -23,9 +23,15 @@ function index() {
       {/* 공통 헤더 UI 부분 */}
       <CommonHeader />
       <main className={styles.page_contents}>
-        {data.map((item: CardDTO) => {
-          return <Card prop_data={item} key={item.id} />;
-        })}
+        {data.length == 0 ? (
+          <div className={styles.page_contents_noData}>
+            조회 가능한 데이터가 없습니다.
+          </div>
+        ) : (
+          data.map((item: CardDTO) => {
+            return <Card prop_data={item} key={item.id} />;
+          })
+        )}
       </main>
     </div>
   );
